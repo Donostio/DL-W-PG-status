@@ -27,23 +27,31 @@
             transform: scale(1.02);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
+        /* Custom size for the District Line logo (15% larger than w-32 which is 8rem) */
+        .logo-15-percent-bigger {
+            width: 9.2rem;
+        }
+        /* Custom class to move content to the top when detail text is present */
+        .content-at-top {
+            justify-content: flex-start;
+            padding-top: 5rem; /* Add some padding from the top */
+        }
     </style>
 </head>
 <body class="bg-black text-white min-h-screen">
-    <div class="flex flex-col items-center justify-center min-h-screen p-4">
+    <!-- Main container. The 'content-at-top' class will be added here by JS when needed. -->
+    <div id="main-container" class="flex flex-col items-center justify-center min-h-screen p-4">
         <!-- District Line Status Card -->
-        <!-- The background has been removed to create a uniform black background -->
         <div class="line-section bg-black w-full max-w-sm">
             <a href="https://tfl.gov.uk/tube-dlr-overground/status/#district" target="_blank" class="line-link">
-                <!-- Image source has been updated to your local file -->
-                <img src="images/DL Wpg.png" id="district-logo" alt="District Line Roundel" class="w-32 mb-2">
+                <!-- Apply the new custom logo size class -->
+                <img src="images/DL Wpg.png" id="district-logo" alt="District Line Roundel" class="logo-15-percent-bigger mb-2">
             </a>
             <div class="text-center">
                 <p id="district-status" class="text-4xl font-extrabold text-white mb-1">Good morning Evie, checking your District Line route...</p>
                 <p id="district-detail" class="text-lg font-bold text-gray-200"></p>
             </div>
         </div>
-    </div>
 
         <!-- Loading and Error UI -->
         <div id="loading" class="mt-8 text-center hidden">
@@ -66,6 +74,7 @@
             // This URL will be in the format: https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec
             const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyCQE-9mC0JeD_jaxcHSsuSjNf_RZCHIRxjBRBcOmP8dNAKgfMAyegIiO3IRzFLP172eA/exec';
 
+            const mainContainer = document.getElementById('main-container');
             const loadingIndicator = document.getElementById('loading');
             const errorMessage = document.getElementById('error-message');
             const districtStatus = document.getElementById('district-status');
@@ -95,6 +104,10 @@
                 loadingIndicator.classList.remove('hidden');
                 errorMessage.classList.add('hidden');
 
+                // Reset the container position to center before fetching new data
+                mainContainer.classList.remove('content-at-top');
+                mainContainer.classList.add('justify-center');
+
                 if (APPS_SCRIPT_URL === 'YOUR_DEPLOYED_APPS_SCRIPT_URL_HERE' || !APPS_SCRIPT_URL) {
                     loadingIndicator.classList.add('hidden');
                     errorMessage.classList.remove('hidden');
@@ -123,6 +136,15 @@
                     districtStatus.textContent = data.status;
                     districtStatus.className = `text-4xl font-extrabold mb-1 ${getStatusColor(data.status)}`;
                     districtDetail.textContent = data.reason;
+                    
+                    // Conditionally move the container to the top if there is detail text
+                    if (data.reason && data.reason.trim().length > 0) {
+                        mainContainer.classList.add('content-at-top');
+                        mainContainer.classList.remove('justify-center');
+                    } else {
+                        mainContainer.classList.remove('content-at-top');
+                        mainContainer.classList.add('justify-center');
+                    }
 
                 } catch (error) {
                     console.error('Fetch error:', error);
@@ -141,4 +163,5 @@
     </script>
 </body>
 </html>
+
 
