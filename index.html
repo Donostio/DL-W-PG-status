@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>District Line Status</title>
+    <title>District Line Status: Wimbledon to Parsons Green</title>
     <!-- Use Tailwind CSS for a clean, mobile-first design -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -21,56 +21,43 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             border-radius: 1rem;
             transition: all 0.3s ease;
-            height: 100%;
+            min-height: 250px; /* Ensure a minimum height */
         }
         .line-section:hover {
             transform: scale(1.02);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
-        .roundel-placeholder {
-            width: 8rem;
-            height: 8rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 9999px; /* full rounded */
-            border: 4px solid white;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-            margin-bottom: 0.5rem;
-            /* District Line Specific Color */
-            background-color: #00703c;
-        }
     </style>
 </head>
 <body class="bg-black text-white min-h-screen">
-    <div class="flex items-center justify-center min-h-screen p-4">
+    <div class="flex flex-col items-center justify-center min-h-screen p-4">
         <!-- District Line Status Card -->
-        <div class="line-section bg-zinc-900 w-full max-w-sm">
+        <!-- The background has been removed to create a uniform black background -->
+        <div class="line-section bg-black w-full max-w-sm">
             <a href="https://tfl.gov.uk/tube-dlr-overground/status/#district" target="_blank" class="line-link">
-                <div class="roundel-placeholder">
-                    <span>D</span>
-                </div>
+                <!-- Image source has been updated to your local file -->
+                <img src="images/DL Wpg.png" id="district-logo" alt="District Line Roundel" class="w-32 mb-2">
             </a>
             <div class="text-center">
-                <p class="text-2xl font-bold mb-1">District Line</p>
-                <p id="district-status" class="text-4xl font-extrabold text-white mb-1"></p>
+                <p class="text-2xl font-bold mb-1">District Line (Wimbledon branch)</p>
+                <p id="district-status" class="text-4xl font-extrabold text-white mb-1">Loading...</p>
                 <p id="district-detail" class="text-lg font-bold text-gray-200"></p>
             </div>
         </div>
-    </div>
 
-    <!-- Loading and Error UI -->
-    <div id="loading" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-        <svg class="animate-spin h-8 w-8 text-blue-400 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg>
-        <p class="mt-2 text-gray-400">Fetching latest status...</p>
-    </div>
-    <div id="error-message" class="hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-red-400 font-semibold">
-        There was an error fetching the tube status. Please check your Apps Script URL.
+        <!-- Loading and Error UI -->
+        <div id="loading" class="mt-8 text-center hidden">
+            <svg class="animate-spin h-8 w-8 text-blue-400 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <p class="mt-2 text-gray-400">Fetching latest status...</p>
+        </div>
+
+        <div id="error-message" class="mt-8 text-center hidden p-4 rounded-lg bg-red-900 border-2 border-red-500">
+            <p class="text-red-400 font-semibold mb-2">Configuration Error!</p>
+            <p class="text-red-300">The Apps Script URL is not configured. Please replace `YOUR_DEPLOYED_APPS_SCRIPT_URL_HERE` in the HTML file with your actual deployed URL.</p>
+        </div>
     </div>
 
     <script>
@@ -100,14 +87,19 @@
             };
 
             const fetchTubeStatus = async () => {
-                // Show loading indicator and hide any previous error messages
+                // Show a simple loading message immediately
+                districtStatus.textContent = 'Loading...';
+                districtStatus.className = 'text-4xl font-extrabold text-white mb-1';
+                districtDetail.textContent = '';
+                
                 loadingIndicator.classList.remove('hidden');
                 errorMessage.classList.add('hidden');
 
                 if (APPS_SCRIPT_URL === 'YOUR_DEPLOYED_APPS_SCRIPT_URL_HERE' || !APPS_SCRIPT_URL) {
-                    errorMessage.textContent = 'Please replace the placeholder URL with your deployed Apps Script URL.';
-                    errorMessage.classList.remove('hidden');
                     loadingIndicator.classList.add('hidden');
+                    errorMessage.classList.remove('hidden');
+                    districtStatus.textContent = ''; // Clear status message
+                    districtDetail.textContent = ''; // Clear detail message
                     return;
                 }
 
@@ -149,3 +141,4 @@
     </script>
 </body>
 </html>
+
