@@ -49,6 +49,8 @@
             </a>
             <div class="text-center">
                 <p id="district-status" class="text-4xl font-extrabold text-white mb-1">Hello Evie, checking your District Line route...</p>
+                <!-- This p tag displays the filtered detail text from the TFL API -->
+                <p id="tfl-detail-text" class="text-md font-normal text-white"></p>
                 <p id="district-detail" class="text-lg font-bold text-gray-200"></p>
             </div>
         </div>
@@ -70,7 +72,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // >>>>>>>>>>>>>>>>>> IMPORTANT: PLEASE REPLACE THE LINE BELOW WITH YOUR DEPLOYED APPS SCRIPT WEB APP URL <<<<<<<<<<<<<<<<<<<
+            // >>>>>>>>>>>>>>>>>> IMPORTANT: PLEASE REPLACE THE LINE BELOW WITH YOUR DEPLOYED APPS SCRIPT WEB APP URL <<<<<<<<<<<<<<<<<<<<
             // This URL will be in the format: https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec
             const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyqgaiZdhrbUBQ73zhETMR-SL9yFMnUdwehJcSfn5XVUTt97J5NL-uUWYBzKgX3YDgkKw/exec';
 
@@ -79,6 +81,7 @@
             const errorMessage = document.getElementById('error-message');
             const districtStatus = document.getElementById('district-status');
             const districtDetail = document.getElementById('district-detail');
+            const tflDetailText = document.getElementById('tfl-detail-text');
 
             // This function determines the text color based on the status
             const getStatusColor = (status) => {
@@ -100,6 +103,7 @@
                 districtStatus.textContent = 'Hello Evie, checking your route...';
                 districtStatus.className = 'text-4xl font-extrabold text-white mb-1';
                 districtDetail.textContent = '';
+                tflDetailText.textContent = '';
                 
                 loadingIndicator.classList.remove('hidden');
                 errorMessage.classList.add('hidden');
@@ -136,9 +140,10 @@
                     districtStatus.textContent = data.status;
                     districtStatus.className = `text-4xl font-extrabold mb-1 ${getStatusColor(data.status)}`;
                     districtDetail.textContent = data.reason;
+                    tflDetailText.textContent = data.tflReason;
                     
                     // Conditionally move the container to the top if there is detail text
-                    if (data.reason && data.reason.trim().length > 0) {
+                    if ((data.reason && data.reason.trim().length > 0) || (data.tflReason && data.tflReason.trim().length > 0)) {
                         mainContainer.classList.add('content-at-top');
                         mainContainer.classList.remove('justify-center');
                     } else {
@@ -163,5 +168,3 @@
     </script>
 </body>
 </html>
-
-
