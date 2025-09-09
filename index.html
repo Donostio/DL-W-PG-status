@@ -45,8 +45,7 @@
             <div class="text-center">
                 <p id="district-status" class="text-3xl font-extrabold text-white mb-1">Hello Evie, checking your District Line route...</p>
                 <!-- This p tag displays the filtered detail text from the TFL API -->
-                <p id="tfl-detail-text" class="text-md font-normal text-white mt-2"></p>
-                <p id="district-detail" class="text-lg font-bold text-gray-200"></p>
+                <p id="tfl-detail-text" class="text-md font-bold text-white mt-2"></p>
             </div>
         </div>
 
@@ -75,7 +74,6 @@
             const loadingIndicator = document.getElementById('loading');
             const errorMessage = document.getElementById('error-message');
             const districtStatus = document.getElementById('district-status');
-            const districtDetail = document.getElementById('district-detail');
             const tflDetailText = document.getElementById('tfl-detail-text');
 
             // This function determines the text color based on the status
@@ -97,7 +95,6 @@
                 // Show a simple loading message immediately
                 districtStatus.textContent = 'Hello Evie, checking your route...';
                 districtStatus.className = 'text-3xl font-extrabold text-white mb-1';
-                districtDetail.textContent = '';
                 tflDetailText.textContent = '';
                 
                 loadingIndicator.classList.remove('hidden');
@@ -107,7 +104,6 @@
                     loadingIndicator.classList.add('hidden');
                     errorMessage.classList.remove('hidden');
                     districtStatus.textContent = ''; // Clear status message
-                    districtDetail.textContent = ''; // Clear detail message
                     return;
                 }
 
@@ -130,7 +126,6 @@
                     // Update District Line section
                     districtStatus.textContent = data.status;
                     districtStatus.className = `text-3xl font-extrabold mb-1 ${getStatusColor(data.status)}`;
-                    districtDetail.textContent = data.reason;
                     tflDetailText.textContent = data.tflReason;
                     
                 } catch (error) {
