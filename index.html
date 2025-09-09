@@ -1,147 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>District Line Status: Wimbledon to Parsons Green</title>
-    <!-- Use Tailwind CSS for a clean, mobile-first design -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #000000; /* Solid black background */
-        }
-        .line-section {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-            text-align: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            border-radius: 1rem;
-            transition: all 0.3s ease;
-            min-height: 250px; /* Ensure a minimum height */
-        }
-        .line-section:hover {
-            transform: scale(1.02);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-        /* Custom size for the District Line logo */
-        .district-logo-size {
-            width: 8.4rem;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>District Line Status: Wimbledon to Parsons Green</title>
+    <!-- Use Tailwind CSS for a clean, mobile-first design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000; /* Solid black background */
+        }
+        .line-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+            min-height: 250px; /* Ensure a minimum height */
+        }
+        .line-section:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        /* Custom size for the District Line logo */
+        .district-logo-size {
+            width: 8.4rem;
+        }
+    </style>
 </head>
 <body class="bg-black text-white min-h-screen">
-    <!-- Main container. The content will now start from the top of the screen -->
-    <div id="main-container" class="flex flex-col items-center justify-start min-h-screen p-4 pt-16">
-        <!-- District Line Status Card -->
-        <div class="line-section bg-black w-full max-w-sm">
-            <a href="https://tfl.gov.uk/tube-dlr-overground/status/#district" target="_blank" class="line-link">
-                <!-- Apply the new custom logo size class -->
-                <img src="images/DL Wpg.png" id="district-logo" alt="District Line Roundel" class="district-logo-size mb-2">
-            </a>
-            <div class="text-center">
-                <p id="district-status" class="text-3xl font-extrabold text-white mb-1">Hello Evie, checking your District Line route...</p>
-                <!-- This p tag displays the filtered detail text from the TFL API -->
-                <p id="tfl-detail-text" class="text-md font-bold text-white mt-2"></p>
-            </div>
-        </div>
+    <!-- Main container. The content will now start from the top of the screen -->
+    <div id="main-container" class="flex flex-col items-center justify-start min-h-screen p-4 pt-16">
+        <!-- District Line Status Card -->
+        <div class="line-section bg-black w-full max-w-sm">
+            <a href="https://tfl.gov.uk/tube-dlr-overground/status/#district" target="_blank" class="line-link">
+                <!-- Inline SVG for the District Line Roundel - This will always load -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="district-logo-size mb-2 mx-auto" viewBox="0 0 100 100" fill="none">
+                    <circle cx="50" cy="50" r="48" fill="#00298B" stroke="#00298B" stroke-width="2"/>
+                    <rect x="15" y="40" width="70" height="20" rx="10" fill="#007229"/>
+                    <text x="50" y="55" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle" dominant-baseline="middle">DISTRICT</text>
+                </svg>
+            </a>
+            <div class="text-center">
+                <p id="tfl-detail-text" class="text-3xl font-bold text-white mt-2">Hello Evie, checking your District Line route...</p>
+            </div>
+        </div>
 
-        <!-- Loading and Error UI -->
-        <div id="loading" class="mt-8 text-center hidden">
-            <svg class="animate-spin h-8 w-8 text-blue-400 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            <p class="mt-2 text-gray-400">Fetching live status...</p>
-        </div>
+        <!-- Loading and Error UI -->
+        <div id="loading" class="mt-8 text-center hidden">
+            <svg class="animate-spin h-8 w-8 text-blue-400 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <p class="mt-2 text-gray-400">Fetching live status...</p>
+        </div>
 
-        <div id="error-message" class="mt-8 text-center hidden p-4 rounded-lg bg-red-900 border-2 border-red-500">
-            <p class="text-red-400 font-semibold mb-2">Configuration Error!</p>
-            <p class="text-red-300">The Apps Script URL is not configured. Please replace `YOUR_DEPLOYED_APPS_SCRIPT_URL_HERE` in the HTML file with your actual deployed URL.</p>
-        </div>
-    </div>
+        <div id="error-message" class="mt-8 text-center hidden p-4 rounded-lg bg-red-900 border-2 border-red-500">
+            <p class="text-red-400 font-semibold mb-2">Configuration Error!</p>
+            <p class="text-red-300">The Apps Script URL is not configured. Please replace `YOUR_DEPLOYED_APPS_SCRIPT_URL_HERE` in the HTML file with your actual deployed URL.</p>
+        </div>
+    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // >>>>>>>>>>>>>>>>>> IMPORTANT: PLEASE REPLACE THE LINE BELOW WITH YOUR DEPLOYED APPS SCRIPT WEB APP URL <<<<<<<<<<<<<<<<<<<<
-            // This URL will be in the format: https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec
-            const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyqgaiZdhrbUBQ73zhETMR-SL9yFMnUdwehJcSfn5XVUTt97J5NL-uUWYBzKgX3YDgkKw/exec';
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // >>>>>>>>>>>>>>>>>> IMPORTANT: PLEASE REPLACE THE LINE BELOW WITH YOUR DEPLOYED APPS SCRIPT WEB APP URL <<<<<<<<<<<<<<<<<<<<
+            // This URL will be in the format: https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec
+            const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyqgaiZdhrbUBQ73zhETMR-SL9yFMnUdwehJcSfn5XVUTt97J5NL-uUWYBzKgX3YDgkKw/exec';
 
-            const mainContainer = document.getElementById('main-container');
-            const loadingIndicator = document.getElementById('loading');
-            const errorMessage = document.getElementById('error-message');
-            const districtStatus = document.getElementById('district-status');
-            const tflDetailText = document.getElementById('tfl-detail-text');
+            const mainContainer = document.getElementById('main-container');
+            const loadingIndicator = document.getElementById('loading');
+            const errorMessage = document.getElementById('error-message');
+            const tflDetailText = document.getElementById('tfl-detail-text');
 
-            // This function determines the text color based on the status
-            const getStatusColor = (status) => {
-                const lowerStatus = status.toLowerCase();
-                if (lowerStatus.includes('good service')) {
-                    return 'text-emerald-400';
-                }
-                if (lowerStatus.includes('minor delays') || lowerStatus.includes('part suspended') || lowerStatus.includes('planned closure')) {
-                    return 'text-orange-400';
-                }
-                if (lowerStatus.includes('severe delays') || lowerStatus.includes('suspended') || lowerStatus.includes('no service')) {
-                    return 'text-red-500';
-                }
-                return 'text-gray-400';
-            };
+            // This function determines the text color based on the status
+            const getStatusColor = (status) => {
+                const lowerStatus = status.toLowerCase();
+                if (lowerStatus.includes('good service')) {
+                    return 'text-emerald-400';
+                }
+                if (lowerStatus.includes('minor delays') || lowerStatus.includes('part suspended') || lowerStatus.includes('planned closure')) {
+                    return 'text-orange-400';
+                }
+                if (lowerStatus.includes('severe delays') || lowerStatus.includes('suspended') || lowerStatus.includes('no service')) {
+                    return 'text-red-500';
+                }
+                return 'text-gray-400';
+            };
 
-            const fetchTubeStatus = async () => {
-                // Show a simple loading message immediately
-                districtStatus.textContent = 'Hello Evie, checking your route...';
-                districtStatus.className = 'text-3xl font-extrabold text-white mb-1';
-                tflDetailText.textContent = '';
-                
-                loadingIndicator.classList.remove('hidden');
-                errorMessage.classList.add('hidden');
+            const fetchTubeStatus = async () => {
+                // Show a simple loading message immediately
+                tflDetailText.textContent = 'Hello Evie, checking your route...';
+                tflDetailText.className = 'text-3xl font-extrabold text-white mb-1';
+                
+                loadingIndicator.classList.remove('hidden');
+                errorMessage.classList.add('hidden');
 
-                if (APPS_SCRIPT_URL === 'YOUR_DEPLOYED_APPS_SCRIPT_URL_HERE' || !APPS_SCRIPT_URL) {
-                    loadingIndicator.classList.add('hidden');
-                    errorMessage.classList.remove('hidden');
-                    districtStatus.textContent = ''; // Clear status message
-                    return;
-                }
+                if (APPS_SCRIPT_URL === 'YOUR_DEPLOYED_APPS_SCRIPT_URL_HERE' || !APPS_SCRIPT_URL) {
+                    loadingIndicator.classList.add('hidden');
+                    errorMessage.classList.remove('hidden');
+                    tflDetailText.textContent = ''; // Clear status message
+                    return;
+                }
 
-                try {
-                    const response = await fetch(APPS_SCRIPT_URL);
-                    
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
+                try {
+                    const response = await fetch(APPS_SCRIPT_URL);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
 
-                    const data = await response.json();
+                    const data = await response.json();
 
-                    if (data.error) {
-                        console.error('Apps Script Error:', data.error);
-                        errorMessage.textContent = `Error: ${data.error}`;
-                        errorMessage.classList.remove('hidden');
-                        return;
-                    }
-                    
-                    // Update District Line section
-                    districtStatus.textContent = data.status;
-                    districtStatus.className = `text-3xl font-extrabold mb-1 ${getStatusColor(data.status)}`;
-                    tflDetailText.textContent = data.tflReason;
-                    
-                } catch (error) {
-                    console.error('Fetch error:', error);
-                    errorMessage.textContent = 'There was an error fetching the tube status. Please check your Apps Script URL and deployment permissions.';
-                    errorMessage.classList.remove('hidden');
-                } finally {
-                    // Hide loading indicator after fetching is complete (or fails)
-                    loadingIndicator.classList.add('hidden');
-                }
-            };
+                    if (data.error) {
+                        console.error('Apps Script Error:', data.error);
+                        errorMessage.textContent = `Error: ${data.error}`;
+                        errorMessage.classList.remove('hidden');
+                        return;
+                    }
+                    
+                    // Update District Line section
+                    tflDetailText.textContent = data.tflReason;
+                    tflDetailText.className = `text-3xl font-bold mb-1 ${getStatusColor(data.status)}`;
+                    
+                } catch (error) {
+                    console.error('Fetch error:', error);
+                    errorMessage.textContent = 'There was an error fetching the tube status. Please check your Apps Script URL and deployment permissions.';
+                    errorMessage.classList.remove('hidden');
+                } finally {
+                    // Hide loading indicator after fetching is complete (or fails)
+                    loadingIndicator.classList.add('hidden');
+                }
+            };
 
-            fetchTubeStatus();
-            // Refresh every 5 minutes (300,000 milliseconds)
-            setInterval(fetchTubeStatus, 300000);
-        });
-    </script>
+            fetchTubeStatus();
+            // Refresh every 5 minutes (300,000 milliseconds)
+            setInterval(fetchTubeStatus, 300000);
+        });
+    </script>
 </body>
 </html>
