@@ -82,10 +82,10 @@
                 if (lowerStatus.includes('good service')) {
                     return 'text-emerald-400';
                 }
-                if (lowerStatus.includes('minor delays')) {
+                if (lowerStatus.includes('minor delays') || lowerStatus.includes('part suspended') || lowerStatus.includes('planned closure')) {
                     return 'text-orange-400';
                 }
-                if (lowerStatus.includes('severe delays') || lowerStatus.includes('part suspended') || lowerStatus.includes('planned closure'|| lowerStatus.includes('suspended') || lowerStatus.includes('no service') || lowerStatus.includes('service closed')) {
+                if (lowerStatus.includes('severe delays') || lowerStatus.includes('suspended') || lowerStatus.includes('no service') || lowerStatus.includes('service closed')) {
                     return 'text-red-500';
                 }
                 return 'text-gray-400';
@@ -144,3 +144,4 @@
     </script>
 </body>
 </html>
+
