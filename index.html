@@ -6,6 +6,7 @@
     <title>District Line Status: Wimbledon to Parsons Green</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
             background-color: #000000; /* Solid black background */
@@ -60,8 +61,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // >>>>>>>>>>>>>>>>>> IMPORTANT: PLEASE REPLACE THE LINE BELOW WITH YOUR DEPLOYED APPS SCRIPT WEB APP URL <<<<<<<<<<<<<<<<<<<<
-            // This URL will be in the format: https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec
             const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyqgaiZdhrbUBQ73zhETMR-SL9yFMnUdwehJcSfn5XVUTt97J5NL-uUWYBzKgX3YDgkKw/exec';
 
             const loadingIndicator = document.getElementById('loading');
@@ -69,7 +68,6 @@
             const districtStatus = document.getElementById('district-status');
             const tflDetailText = document.getElementById('tfl-detail-text');
 
-            // This function determines the text color based on the status
             const getStatusColor = (status) => {
                 const lowerStatus = status.toLowerCase();
                 if (lowerStatus.includes('good service')) {
@@ -84,7 +82,6 @@
                 return 'text-gray-400';
             };
             const fetchTubeStatus = async () => {
-                // Show a simple loading message immediately
                 districtStatus.textContent = '';
                 districtStatus.className = 'text-3xl font-extrabold text-white mb-1';
                 tflDetailText.textContent = '';
@@ -95,7 +92,7 @@
                 if (APPS_SCRIPT_URL === 'YOUR_DEPLOYED_APPS_SCRIPT_URL_HERE' || !APPS_SCRIPT_URL) {
                     loadingIndicator.classList.add('hidden');
                     errorMessage.classList.remove('hidden');
-                    districtStatus.textContent = ''; // Clear status message
+                    districtStatus.textContent = '';
                     return;
                 }
 
@@ -115,12 +112,12 @@
                         return;
                     }
                     
-                    // Update District Line section
                     districtStatus.textContent = data.status;
                     districtStatus.className = `text-3xl font-extrabold mb-1 ${getStatusColor(data.status)}`;
-                    tflDetailText.textContent = data.tflReason;
-                    
-                    // Add the 'page-ready' signal here
+
+                    // This line is the fix. It ensures that if data.tflReason is undefined or null, it defaults to an empty string.
+                    tflDetailText.textContent = data.tflReason ?? '';
+
                     window.parent.postMessage({ type: 'page-ready' }, '*');
                     
                 } catch (error) {
@@ -128,16 +125,15 @@
                     errorMessage.textContent = 'There was an error fetching the tube status. Please check your Apps Script URL and deployment permissions.';
                     errorMessage.classList.remove('hidden');
                 } finally {
-                    // Hide loading indicator after fetching is complete (or fails)
                     loadingIndicator.classList.add('hidden');
                 }
             };
 
             fetchTubeStatus();
-            // Refresh every 5 minutes (300,000 milliseconds)
             setInterval(fetchTubeStatus, 300000);
         });
     </script>
 </body>
 </html>
+
 
