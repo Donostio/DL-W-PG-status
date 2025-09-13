@@ -115,12 +115,8 @@
                     districtStatus.textContent = data.status;
                     districtStatus.className = `text-3xl font-extrabold mb-1 ${getStatusColor(data.status)}`;
 
-                    // This is the new fix: explicitly check for "Good Service" and clear the text if found.
-                    if (data.status.toLowerCase().includes('good service')) {
-                        tflDetailText.textContent = '';
-                    } else {
-                        tflDetailText.textContent = data.tflReason ?? '';
-                    }
+                    // This is the new fix: It now always displays the reason from the Apps Script
+                    tflDetailText.textContent = data.tflReason ?? '';
 
                     window.parent.postMessage({ type: 'page-ready' }, '*');
                     
@@ -139,6 +135,7 @@
     </script>
 </body>
 </html>
+
 
 
 
