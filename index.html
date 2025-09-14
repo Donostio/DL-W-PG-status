@@ -31,6 +31,11 @@
         .district-logo-size {
             width: 8.4rem;
         }
+
+        /* Fix for the newline characters in the reason text */
+        #tfl-detail-text {
+            white-space: pre-line;
+        }
     </style>
 </head>
 <body class="bg-black text-white min-h-screen">
@@ -73,7 +78,7 @@
                 const lowerReason = reason.toLowerCase();
 
                 // If the reason is the generic message from the Apps Script, the status text should be red.
-                if (lowerReason.includes('your journey status is unclear')) {
+                if (lowerReason.includes('your journey status is unclear') || lowerReason.includes('effect on lms journey unclear')) {
                     return 'text-red-500';
                 }
                 
@@ -148,6 +153,7 @@
     </script>
 </body>
 </html>
+
 
 
 
