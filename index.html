@@ -86,10 +86,10 @@
                 if (lowerStatus.includes('good service')) {
                     return 'text-emerald-400';
                 }
-                if (lowerStatus.includes('minor delays') || lowerStatus.includes('planned closure')) {
+                if (lowerStatus.includes('minor delays') || {
                     return 'text-orange-400';
                 }
-                if (lowerStatus.includes('severe delays') || lowerStatus.includes('suspended') || lowerStatus.includes('no service') || lowerStatus.includes('service closed')) {
+                if (lowerStatus.includes('severe delays') || lowerStatus.includes('planned closure')  ||  lowerStatus.includes('suspended') || lowerStatus.includes('no service') || lowerStatus.includes('service closed') || lowerStatus.includes('part closure')) {
                     return 'text-red-500';
                 }
                 
@@ -153,6 +153,7 @@
     </script>
 </body>
 </html>
+
 
 
 
