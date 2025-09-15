@@ -1,163 +1,176 @@
 <!DOCTYPE-html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>District Line Status: Wimbledon to Parsons Green</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #000000; /* Solid black background */
-        }
-        .line-section {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-            text-align: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            border-radius: 1rem;
-            transition: all 0.3s ease;
-            min-height: 250px; /* Ensure a minimum height */
-        }
-        .line-section:hover {
-            transform: scale(1.02);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-        /* Custom size for the District Line logo */
-        .district-logo-size {
-            width: 8.4rem;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>District Line Status: Wimbledon to Parsons Green</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000; /* Solid black background */
+        }
+        .line-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+            min-height: 250px; /* Ensure a minimum height */
+        }
+        .line-section:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        /* Custom size for the District Line logo */
+        .district-logo-size {
+            width: 8.4rem;
+        }
 
-        /* Fix for the newline characters in the reason text */
-        #tfl-detail-text {
-            white-space: pre-line;
-        }
-    </style>
+        /* Fix for the newline characters in the reason text */
+        #tfl-detail-text {
+            white-space: pre-line;
+        }
+    </style>
 </head>
 <body class="bg-black text-white min-h-screen">
-    <div id="main-container" class="flex flex-col items-center justify-start min-h-screen p-4 pt-16">
-        <div class="line-section bg-black w-full max-w-sm">
-            <a href="https://tfl.gov.uk/tube-dlr-overground/status/#district" target="_blank" class="line-link">
-                <img src="images/DL.png" id="district-logo" alt="District Line Roundel" class="district-logo-size mb-2 mx-auto" onerror="this.onerror=null; this.src='https://placehold.co/134x134/00298B/FFFFFF?text=Logo+missing';">
-            </a>
-            <div class="text-center">
-                <p id="district-status" class="text-3xl font-extrabold text-white mb-1"></p>
-                <p id="tfl-detail-text" class="text-md text-white mt-2"></p>
-            </div>
-        </div>
+    <div id="main-container" class="flex flex-col items-center justify-start min-h-screen p-4 pt-16">
+        <div class="line-section bg-black w-full max-w-sm">
+            <a href="https://tfl.gov.uk/tube-dlr-overground/status/#district" target="_blank" class="line-link">
+                <img src="images/DL.png" id="district-logo" alt="District Line Roundel" class="district-logo-size mb-2 mx-auto" onerror="this.onerror=null; this.src='https://placehold.co/134x134/00298B/FFFFFF?text=Logo+missing';">
+            </a>
+            <div class="text-center">
+                <p id="district-status" class="text-3xl font-extrabold text-white mb-1"></p>
+                <p id="tfl-detail-text" class="text-md text-white mt-2"></p>
+            </div>
+        </div>
 
-        <div id="loading" class="mt-8 text-center hidden">
-            <svg class="animate-spin h-8 w-8 text-blue-400 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            <p class="mt-2 text-gray-400">Checking your route...</p>
-        </div>
+        <div id="loading" class="mt-8 text-center hidden">
+            <svg class="animate-spin h-8 w-8 text-blue-400 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <p class="mt-2 text-gray-400">Checking your route...</p>
+        </div>
 
-        <div id="error-message" class="mt-8 text-center hidden p-4 rounded-lg bg-red-900 border-2 border-red-500">
-            <p class="text-red-400 font-semibold mb-2">Configuration Error!</p>
-            <p class="text-red-300">The Apps Script URL is not configured. Please replace `YOUR_DEPLOYED_APPS_SCRIPT_URL_HERE` in the HTML file with your actual deployed URL.</p>
-        </div>
-    </div>
+        <div id="error-message" class="mt-8 text-center hidden p-4 rounded-lg bg-red-900 border-2 border-red-500">
+            <p class="text-red-400 font-semibold mb-2">Configuration Error!</p>
+            <p class="text-red-300">The Apps Script URL is not configured. Please replace `YOUR_DEPLOYED_APPS_SCRIPT_URL_HERE` in the HTML file with your actual deployed URL.</p>
+        </div>
+    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwbzx87RSil2OmNIodZ0WeSEH39ddSt2EsMeElbyH7tRH7RG_t_Lql6QnI7WJz0UQ0eWQ/exec';
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwbzx87RSil2OmNIodZ0WeSEH39ddSt2EsMeElbyH7tRH7RG_t_Lql6QnI7WJz0UQ0eWQ/exec';
 
-            const loadingIndicator = document.getElementById('loading');
-            const errorMessage = document.getElementById('error-message');
-            const districtStatus = document.getElementById('district-status');
-            const tflDetailText = document.getElementById('tfl-detail-text');
+            const loadingIndicator = document.getElementById('loading');
+            const errorMessage = document.getElementById('error-message');
+            const districtStatus = document.getElementById('district-status');
+            const tflDetailText = document.getElementById('tfl-detail-text');
 
-            const getStatusColor = (status, reason) => {
-                const lowerStatus = status.toLowerCase();
-                const lowerReason = reason.toLowerCase();
+            // Flag to prevent multiple fetch calls on the same page load
+            let isFetching = false;
 
-                // If the reason is the generic message from the Apps Script, the status text should be red.
-                if (lowerReason.includes('your journey status is unclear') || lowerReason.includes('effect on lms journey unclear')) {
-                    return 'text-red-500';
-                }
-                
-                // Check for Good Service first
-                if (lowerStatus.includes('good service')) {
-                    return 'text-emerald-400';
-                }
+            const getStatusColor = (status, reason) => {
+                const lowerStatus = status.toLowerCase();
+                const lowerReason = reason.toLowerCase();
 
-                // Then check for Minor Delays (orange)
-                if (lowerStatus.includes('minor delays')) {
-                    return 'text-orange-400';
-                }
+                // If the reason is the generic message from the Apps Script, the status text should be red.
+                if (lowerReason.includes('your journey status is unclear') || lowerReason.includes('effect on lms journey unclear')) {
+                    return 'text-red-500';
+                }
+                
+                // Check for Good Service first
+                if (lowerStatus.includes('good service')) {
+                    return 'text-emerald-400';
+                }
 
-                // Then check for all red statuses, including "Planned Closure" and "Part Closure"
-                if (lowerStatus.includes('severe delays') || lowerStatus.includes('planned closure') || lowerStatus.includes('suspended') || lowerStatus.includes('no service') || lowerStatus.includes('service closed') || lowerStatus.includes('part closure')) {
-                    return 'text-red-500';
-                }
-                
-                // If none of the above conditions are met, default to red
-                return 'text-red-500';
-            };
-            
-            const fetchTubeStatus = async () => {
-                districtStatus.textContent = '';
-                districtStatus.className = 'text-3xl font-extrabold text-white mb-1';
-                tflDetailText.textContent = '';
-                
-                loadingIndicator.classList.remove('hidden');
-                errorMessage.classList.add('hidden');
+                // Then check for Minor Delays (orange)
+                if (lowerStatus.includes('minor delays')) {
+                    return 'text-orange-400';
+                }
 
-                if (APPS_SCRIPT_URL === 'YOUR_DEPLOYED_APPS_SCRIPT_URL_HERE' || !APPS_SCRIPT_URL) {
-                    loadingIndicator.classList.add('hidden');
-                    errorMessage.classList.remove('hidden');
-                    districtStatus.textContent = '';
-                    return;
-                }
+                // Then check for all red statuses, including "Planned Closure" and "Part Closure"
+                if (lowerStatus.includes('severe delays') || lowerStatus.includes('planned closure') || lowerStatus.includes('suspended') || lowerStatus.includes('no service') || lowerStatus.includes('service closed') || lowerStatus.includes('part closure')) {
+                    return 'text-red-500';
+                }
+                
+                // If none of the above conditions are met, default to red
+                return 'text-red-500';
+            };
+            
+            const fetchTubeStatus = async () => {
+                // If a fetch is already in progress, exit immediately to prevent the loop
+                if (isFetching) {
+                    console.log('Fetch already in progress. Skipping new request.');
+                    return;
+                }
+                isFetching = true;
 
-                try {
-                    const response = await fetch(APPS_SCRIPT_URL);
-                    
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
+                districtStatus.textContent = '';
+                districtStatus.className = 'text-3xl font-extrabold text-white mb-1';
+                tflDetailText.textContent = '';
+                
+                loadingIndicator.classList.remove('hidden');
+                errorMessage.classList.add('hidden');
 
-                    const data = await response.json();
+                if (APPS_SCRIPT_URL === 'YOUR_DEPLOYED_APPS_SCRIPT_URL_HERE' || !APPS_SCRIPT_URL) {
+                    loadingIndicator.classList.add('hidden');
+                    errorMessage.classList.remove('hidden');
+                    districtStatus.textContent = '';
+                    isFetching = false; // Reset the flag
+                    return;
+                }
 
-                    if (data.error) {
-                        console.error('Apps Script Error:', data.error);
-                        errorMessage.textContent = `Error: ${data.error}`;
-                        errorMessage.classList.remove('hidden');
-                        return;
-                    }
-                    
-                    districtStatus.textContent = data.status;
-                    // Pass both status and reason to getStatusColor for a smarter decision
-                    districtStatus.className = `text-3xl font-extrabold mb-1 ${getStatusColor(data.status, data.reason)}`;
+                try {
+                    const response = await fetch(APPS_SCRIPT_URL);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
 
-                    if (data.status.toLowerCase().includes('good service')) {
-                        tflDetailText.textContent = '';
-                    } else {
-                        tflDetailText.textContent = data.reason ?? '';
-                    }
-                    
-                } catch (error) {
-                    console.error('Fetch error:', error);
-                    errorMessage.textContent = 'There was an error fetching the tube status. Please check your Apps Script URL and deployment permissions.';
-                    errorMessage.classList.remove('hidden');
-                } finally {
-                    loadingIndicator.classList.add('hidden');
-                    // This is the new fix: always signal that the page is ready to rotate
-                    window.parent.postMessage({ type: 'page-ready' }, '*');
-                }
-            };
+                    const data = await response.json();
 
-            fetchTubeStatus();
-        });
-    </script>
+                    if (data.error) {
+                        console.error('Apps Script Error:', data.error);
+                        errorMessage.textContent = `Error: ${data.error}`;
+                        errorMessage.classList.remove('hidden');
+                        return;
+                    }
+                    
+                    districtStatus.textContent = data.status;
+                    // Pass both status and reason to getStatusColor for a smarter decision
+                    districtStatus.className = `text-3xl font-extrabold mb-1 ${getStatusColor(data.status, data.reason)}`;
+
+                    if (data.status.toLowerCase().includes('good service')) {
+                        tflDetailText.textContent = '';
+                    } else {
+                        tflDetailText.textContent = data.reason ?? '';
+                    }
+                    
+                } catch (error) {
+                    console.error('Fetch error:', error);
+                    errorMessage.textContent = 'There was an error fetching the tube status. Please check your Apps Script URL and deployment permissions.';
+                    errorMessage.classList.remove('hidden');
+                } finally {
+                    loadingIndicator.classList.add('hidden');
+                    isFetching = false; // Reset the flag
+                    // This is the new fix: always signal that the page is ready to rotate
+                    window.parent.postMessage({ type: 'page-ready' }, '*');
+                }
+            };
+
+            fetchTubeStatus();
+        });
+    </script>
 </body>
 </html>
+
 
 
 
