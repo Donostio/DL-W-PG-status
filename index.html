@@ -115,7 +115,7 @@
                 try {
                     // Fetch the static JSON file updated by the GitHub Action.
                     // The '?t=...' is a cache-buster to ensure the browser gets the latest version from the server.
-                    const response = await fetch('./status_data.json?t=' + new Date().getTime()); 
+                    const response = await fetch('/status_data.json?t=' + new Date().getTime()); 
                     
                     if (!response.ok) {
                         throw new Error(`Static file not found or HTTP error! status: ${response.status}`);
