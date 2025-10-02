@@ -1,4 +1,4 @@
-<!DOCTYPE-html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -59,22 +59,20 @@
         </div>
 
         <div id="error-message" class="mt-8 text-center hidden p-4 rounded-lg bg-red-900 border-2 border-red-500">
-            <p class="text-red-400 font-semibold mb-2">Configuration Error!</p>
-            <p class="text-red-300">The Apps Script URL is not configured. Please replace `YOUR_DEPLOYED_APPS_SCRIPT_URL_HERE` in the HTML file with your actual deployed URL.</p>
+            <p class="text-red-400 font-semibold mb-2">Error Loading Status</p>
+            <p class="text-red-300">The current status file could not be loaded. This may be temporary.</p>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz1JKID-BudGIj3_esuRU3UYpnaxRwwQTPDKgbInjjJX6fnwwrnsgy8x7t4btzw51tymA/exec';
+            // APPS_SCRIPT_URL is no longer needed here as the page fetches a static file instead.
+            // const APPS_SCRIPT_URL = '...'; 
 
             const loadingIndicator = document.getElementById('loading');
             const errorMessage = document.getElementById('error-message');
             const districtStatus = document.getElementById('district-status');
             const tflDetailText = document.getElementById('tfl-detail-text');
-
-            // Flag to prevent multiple fetch calls on the same page load
-            let isFetching = false;
 
             const getStatusColor = (status, reason) => {
                 const lowerStatus = status.toLowerCase();
@@ -100,18 +98,13 @@
                     return 'text-red-500';
                 }
                 
-                // If none of the above conditions are met, default to red
+                // Default to red if status is unknown or not explicitly handled
                 return 'text-red-500';
             };
             
-            const fetchTubeStatus = async () => {
-                // If a fetch is already in progress, exit immediately to prevent the loop
-                if (isFetching) {
-                    console.log('Fetch already in progress. Skipping new request.');
-                    return;
-                }
-                isFetching = true;
-
+            // This function now fetches the STATIC JSON file updated by the GitHub Action.
+            const fetchTubeStatus = async () => { 
+                
                 districtStatus.textContent = '';
                 districtStatus.className = 'text-3xl font-extrabold text-white mb-1';
                 tflDetailText.textContent = '';
@@ -119,32 +112,18 @@
                 loadingIndicator.classList.remove('hidden');
                 errorMessage.classList.add('hidden');
 
-                if (APPS_SCRIPT_URL === 'YOUR_DEPLOYED_APPS_SCRIPT_URL_HERE' || !APPS_SCRIPT_URL) {
-                    loadingIndicator.classList.add('hidden');
-                    errorMessage.classList.remove('hidden');
-                    districtStatus.textContent = '';
-                    isFetching = false; // Reset the flag
-                    return;
-                }
-
                 try {
-                    const response = await fetch(APPS_SCRIPT_URL);
+                    // Fetch the static JSON file updated by the GitHub Action.
+                    // The '?t=...' is a cache-buster to ensure the browser gets the latest version from the server.
+                    const response = await fetch('./status_data.json?t=' + new Date().getTime()); 
                     
                     if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
+                        throw new Error(`Static file not found or HTTP error! status: ${response.status}`);
                     }
 
                     const data = await response.json();
-
-                    if (data.error) {
-                        console.error('Apps Script Error:', data.error);
-                        errorMessage.textContent = `Error: ${data.error}`;
-                        errorMessage.classList.remove('hidden');
-                        return;
-                    }
                     
                     districtStatus.textContent = data.status;
-                    // Pass both status and reason to getStatusColor for a smarter decision
                     districtStatus.className = `text-3xl font-extrabold mb-1 ${getStatusColor(data.status, data.reason)}`;
 
                     if (data.status.toLowerCase().includes('good service')) {
@@ -154,18 +133,25 @@
                     }
                     
                 } catch (error) {
-                    console.error('Fetch error:', error);
-                    errorMessage.textContent = 'There was an error fetching the tube status. Please check your Apps Script URL and deployment permissions.';
-                    errorMessage.classList.remove('hidden');
+                    console.error('Display error:', error);
+                    // Default status if the file fetch fails
+                    districtStatus.textContent = 'Status Pending';
+                    districtStatus.className = 'text-3xl font-extrabold mb-1 text-yellow-500';
+                    tflDetailText.textContent = 'Data is loading or the GitHub Action has not run yet.';
+                    errorMessage.classList.add('hidden');
                 } finally {
                     loadingIndicator.classList.add('hidden');
-                    isFetching = false; // Reset the flag
-                    // This is the new fix: always signal that the page is ready to rotate
+                    // This is for external page rotation tools, keeping it here is safe.
                     window.parent.postMessage({ type: 'page-ready' }, '*');
                 }
             };
-          // Remove this line to stop it from running on page load
-          // fetchTubeStatus();
+
+            // 1. Initial call to display content immediately from the static file.
+            fetchTubeStatus(); 
+            
+            // 2. Client-side timer to re-read the static file every minute. 
+            // This ensures the status updates within a minute of the GitHub Action running.
+            setInterval(fetchTubeStatus, 60000); // 60000 milliseconds = 1 minute
         });
     </script>
 </body>
