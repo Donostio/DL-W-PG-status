@@ -1,7 +1,7 @@
 name: Update Tube Status
 
 # This schedule runs every 10 minutes (at :00, :10, :20, :30, :40, :50 minutes past the hour).
-# This is the "timer" you asked for.
+# This is the "timer" that you asked for.
 on:
   schedule:
     # The cron string '*/10 * * * *' sets the 10-minute interval.
