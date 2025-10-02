@@ -1,0 +1,7 @@
+# _config.yml (Create or modify this file in the root of your repository)
+
+# This tells Jekyll (the GitHub Pages builder) to ignore the files/folders
+# that are dynamically created or are not part of the website content.
+exclude:
+  - status_data.json
+  - .github # Exclude the entire GitHub Actions folder
