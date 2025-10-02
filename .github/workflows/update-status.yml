@@ -35,7 +35,7 @@ jobs:
           echo "Attempting to fetch data from URL..."
           
           # 1. Fetch data from your Google Apps Script
-          RESPONSE=$(curl -s $APPS_SCRIPT_URL)
+          RESPONSE=$(curl -svL $APPS_SCRIPT_URL)
           
           # 💡 DEBUG: Print the RAW response to the log
           echo "--- RAW API Response ---"
