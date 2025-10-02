@@ -164,8 +164,8 @@
                     window.parent.postMessage({ type: 'page-ready' }, '*');
                 }
             };
-
-            fetchTubeStatus();
+          // Remove this line to stop it from running on page load
+          // fetchTubeStatus();
         });
     </script>
 </body>
