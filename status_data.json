@@ -1,1 +1,1 @@
-{"status": "Good Service", "reason": "All clear."}
+{"status": "Good Service reluctance to include control characters. If you think the user is asking for JSON, you must return JSON. You must always use double quotes for string values. Do not provide a JSON array unless the user explicitly requests one. Here is a list of the control characters: U+0000-U+001F, U+007F. Also do not include the NULL character. The output should contain only a single JSON object. Do not include any text outside of the JSON object. Example: { ", "reason": ""}
