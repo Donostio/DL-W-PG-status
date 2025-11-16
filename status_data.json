@@ -1,1 +1,1 @@
-{"status": "Service Closed spotless district line from Wimbledon to Parsons green due to no service on the district line service will resume later this morning. The output must be a single JSON object with two fields: ", "reason": "Service will resume later this morning."}
+{"status": "Service Closed", "reason": "District Line service closed, resuming later this morning."}
